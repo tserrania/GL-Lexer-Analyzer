@@ -82,6 +82,7 @@ int main(void) {
    test4();
    test5();
    test6();
+   // ERRORS
    test7();
    test8();
    test9();
