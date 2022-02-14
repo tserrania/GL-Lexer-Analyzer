@@ -6,7 +6,13 @@
 void parse(string& chaine) {
    Lexer l(chaine);
    Automate a(&l);
-   cout << chaine << " = " << a.Executer(new Etat0()) << endl;
+   int res = a.Executer(new Etat0());
+   if (a.IsErrone()) {
+      cout << chaine << " = " << "ERREUR" << endl;
+   }
+   else {
+      cout << chaine << " = " << res << endl;
+   }
 }
 
 void test1() {
