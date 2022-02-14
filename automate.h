@@ -8,18 +8,17 @@ class Etat;
 
 class Automate {
    public:
-      Automate(Lexer* l) : lexer(l), consultation(true), erreur(false) {  }
-      virtual ~Automate();
-      void InterdireConsultation();
-      Symbole* Consulter();
+      Automate(Lexer* l) : lexer(l), reduction(false), erreur(false), dernier_symbole(nullptr) {  }
+      int Executer(Etat* init);
+      bool IsErrone();
+      void Reduire();
       void Avancer();
       void PushEtat(Etat* e);
       void PushSymbole(Symbole* s);
       Symbole* PopEtatSymbole();
       Symbole* DernierSymbole();
       Etat* DernierEtat();
-      bool IsErrone();
-      int Executer(Etat* init);
+      virtual ~Automate();
 
    protected:
       void viderCache();
@@ -29,6 +28,7 @@ class Automate {
       stack<Symbole*> symboles; 
       stack<Etat*> etats_supprimes; 
       stack<Symbole*> symboles_supprimes; 
-      bool consultation;
+      Symbole* dernier_symbole;
+      bool reduction;
       bool erreur;
 };

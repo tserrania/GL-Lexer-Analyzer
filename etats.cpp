@@ -4,7 +4,6 @@
 int Etat0::transition(Automate& a) {
     // cout << "ET0" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
@@ -30,8 +29,8 @@ int Etat0::transition(Automate& a) {
 int Etat1::transition(Automate& a) {
     // cout << "ET1" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
+    Symbole *val, *expr;
     Etat* e;
     switch ((int) (*s)) {
         case PLUS:
@@ -43,7 +42,10 @@ int Etat1::transition(Automate& a) {
             a.PushEtat(e);
             break;
         case FIN:
-            a.PopEtatSymbole();
+            val = a.PopEtatSymbole();
+            expr = new Expr(val->GetValeur());
+            a.PushSymbole(expr);
+            a.Reduire();
             termine = 1;
             break;
         default:
@@ -56,7 +58,6 @@ int Etat1::transition(Automate& a) {
 int Etat2::transition(Automate& a) {
     // cout << "ET2" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
@@ -82,15 +83,15 @@ int Etat2::transition(Automate& a) {
 int Etat3::transition(Automate& a) {
     // cout << "ET3" << endl;
     Symbole* val = a.PopEtatSymbole();
-    a.InterdireConsultation();
     Symbole* expr = new Expr(val->GetValeur());
     a.PushSymbole(expr);
+    a.DernierEtat()->transition(a);
+    a.Reduire();
     return 0;
 }
 int Etat4::transition(Automate& a) {
     // cout << "ET4" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
@@ -116,7 +117,6 @@ int Etat4::transition(Automate& a) {
 int Etat5::transition(Automate& a) {
     // cout << "ET5" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
@@ -142,7 +142,6 @@ int Etat5::transition(Automate& a) {
 int Etat6::transition(Automate& a) {
     // cout << "ET6" << endl;
     int termine = 0;
-    a.Avancer();
     Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
@@ -167,21 +166,21 @@ int Etat6::transition(Automate& a) {
 }
 int Etat7::transition(Automate& a) {
     // cout << "ET7" << endl;
-    Symbole* s = a.Consulter();
+    Symbole* s = a.DernierSymbole();
     Etat* e;
     switch ((int) (*s)) {
         case MULT:
             e = new Etat5();
-            a.Avancer();
             a.PushEtat(e);
             break;
         default:
             Symbole* val1 = a.PopEtatSymbole();
             a.PopEtatSymbole();
             Symbole* val2 = a.PopEtatSymbole();
-            a.InterdireConsultation();
             Symbole* expr = new Expr(val1->GetValeur()+val2->GetValeur());
             a.PushSymbole(expr);
+            a.DernierEtat()->transition(a);
+            a.Reduire();
             break;
     }
     return 0;
@@ -191,9 +190,10 @@ int Etat8::transition(Automate& a) {
     Symbole* val1 = a.PopEtatSymbole();
     a.PopEtatSymbole();
     Symbole* val2 = a.PopEtatSymbole();
-    a.InterdireConsultation();
     Symbole* expr = new Expr(val1->GetValeur()*val2->GetValeur());
     a.PushSymbole(expr);
+    a.DernierEtat()->transition(a);
+    a.Reduire();
     return 0;
 }
 int Etat9::transition(Automate& a) {
@@ -201,8 +201,9 @@ int Etat9::transition(Automate& a) {
     a.PopEtatSymbole();
     Symbole* val = a.PopEtatSymbole();
     a.PopEtatSymbole();
-    a.InterdireConsultation();
     Symbole* expr = new Expr(val->GetValeur());
     a.PushSymbole(expr);
+    a.DernierEtat()->transition(a);
+    a.Reduire();
     return 0;
 }
