@@ -17,6 +17,7 @@ Automate::~Automate(){
 Symbole* Automate::Consulter() {
    return lexer->Consulter();
 }
+
 void Automate::Avancer() {
    if (consultation) {
       Symbole* s = lexer->Consulter();
@@ -59,12 +60,16 @@ int Automate::Executer(Etat* init) {
       //cout << "Symbole " << (int) (*DernierSymbole()) << " Etats " << symboles.size() << endl;
    } while (!termine);
    if (termine==1) {
-      symboles_supprimes.push(symboles.top());
-      symboles.pop();
-      return symboles.top()->GetValeur();
+      erreur = false;
+      return DernierSymbole()->GetValeur();
    } else {
+      erreur = true;
       return 0;
    }
+}
+
+bool Automate::IsErrone() {
+   return erreur;
 }
 
 void Automate::viderCache() {

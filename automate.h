@@ -8,7 +8,7 @@ class Etat;
 
 class Automate {
    public:
-      Automate(Lexer* l) : lexer(l), consultation(true) {  }
+      Automate(Lexer* l) : lexer(l), consultation(true), erreur(false) {  }
       virtual ~Automate();
       void InterdireConsultation();
       Symbole* Consulter();
@@ -18,6 +18,7 @@ class Automate {
       Symbole* PopEtatSymbole();
       Symbole* DernierSymbole();
       Etat* DernierEtat();
+      bool IsErrone();
       int Executer(Etat* init);
 
    protected:
@@ -29,4 +30,5 @@ class Automate {
       stack<Etat*> etats_supprimes; 
       stack<Symbole*> symboles_supprimes; 
       bool consultation;
+      bool erreur;
 };

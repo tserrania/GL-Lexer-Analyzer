@@ -21,6 +21,7 @@ int Etat0::transition(Automate& a) {
             a.PushEtat(e);
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[OPENPAR] << "', '" << Etiquettes[INT] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
@@ -42,9 +43,11 @@ int Etat1::transition(Automate& a) {
             a.PushEtat(e);
             break;
         case FIN:
+            a.PopEtatSymbole();
             termine = 1;
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[PLUS] << "', '" << Etiquettes[MULT] << "', '" << Etiquettes[FIN] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
@@ -70,6 +73,7 @@ int Etat2::transition(Automate& a) {
             a.PushEtat(e);
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[OPENPAR] << "', '" << Etiquettes[INT] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
@@ -103,6 +107,7 @@ int Etat4::transition(Automate& a) {
             a.PushEtat(e);
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[OPENPAR] << "', '" << Etiquettes[INT] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
@@ -128,6 +133,7 @@ int Etat5::transition(Automate& a) {
             a.PushEtat(e);
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[OPENPAR] << "', '" << Etiquettes[INT] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
@@ -153,6 +159,7 @@ int Etat6::transition(Automate& a) {
             a.PushEtat(e);
             break;
         default:
+            cerr << "Error: expected '" << Etiquettes[PLUS] << "', '" << Etiquettes[MULT] << "', '" << Etiquettes[CLOSEPAR] << "'; got '" << Etiquettes[(int) *s] << "'" << endl;
             termine = 2;
             break;
     }
